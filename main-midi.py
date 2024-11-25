@@ -41,13 +41,15 @@ file_names =  ['A0', 'B0',
                'C7', 'D7', 'Db7', 'E7', 'Eb7', 'F7', 'G7', 'Gb7', 'A7', 'Ab7', 'B7', 'Bb7',
                'C8']
 
-key_to_note = {"1":"G4", "2":"A4", "3":"C5", "4":"D5", "5":"E5"}
+key_to_note = {"1":"G4", "2":"A4", "3":"C5", "4":"D5", "5":"E5",
+               "left":"G4", "up":"A4", "down":"C5", "right":"D5", "space":"E5"}
 
 note_sound = { }
 for file_name in file_names:
     note_sound[file_name] = mixer.Sound("assets/notes/" + file_name + ".wav")
 
 run = True
+note_volume = 0.25
 
 # Function to run when button is clicked
 def on_button_click():
@@ -71,6 +73,7 @@ while run:
                 note_name = key_to_note[key_name]
                 # print(key_name + "-down")
                 note_sound[note_name].play(0) # without second argument, plays length of entire recording
+                note_sound[note_name].set_volume(note_volume)
 
         if event.type == pygame.KEYUP:
             key_name = pygame.key.name(event.key)
@@ -81,8 +84,9 @@ while run:
 
         # Check for mouse click
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if button_rect.collidepoint(event.pos):
-                on_button_click()
+            on_button_click() # trigger anywhere
+            # if button_rect.collidepoint(event.pos):
+            #     on_button_click()
 
     # Clear screen
     screen.fill(WHITE)
